@@ -8,13 +8,15 @@ Author:  WPSOLR.COM
 
 Author URI: http://wpsolr.com/
 
-Tags: Solr in WordPress, Solr search, fast search, WPSOLR 
+Donate link: 
+
+Tags: Solr in WordPress, Solr search, fast search, WPSOLR
 
 Requires at least: 3.7.1
 
 Tested up to: 3.9
 
-Stable tag: trunk
+Stable tag:trunk
 
 Solr search with facets, autocompletion, and suggestions
 
@@ -43,11 +45,6 @@ The WPSOLR Search Engine plugin overcomes the limitations of the WordPress defau
 3. Go to the 'WPSOLR' settings page and configure the plugin.
 4. Please refer the Installation and User Guide for further reference.
 
-
-== Changelog ==
-
-= 1.0 =
-Plugin released
 
 == Frequently Asked Questions ==
 
