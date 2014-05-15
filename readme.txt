@@ -6,9 +6,7 @@ Current Version: 1.0
 
 Author:  WPSOLR.COM
 
-Author URI: http://wpsolr.com/
-
-Donate link: 
+Author URI: http://wpsolr.com/ 
 
 Tags: Solr in WordPress, Solr search, fast search, WPSOLR
 
@@ -16,7 +14,7 @@ Requires at least: 3.7.1
 
 Tested up to: 3.9
 
-Stable tag:trunk
+Stable tag: trunk
 
 Solr search with facets, autocompletion, and suggestions
 
@@ -25,7 +23,7 @@ Solr search with facets, autocompletion, and suggestions
 The WPSOLR Search Engine plugin overcomes the limitations of the WordPress default search widget. By configuring Solr and installing this plugin, you can take advantage of its numerous benefits. 
 
 
-== Features ==
+= Features =
 1. Solr server uses indexing for faster search results.
 2. Text-analysis to break down search phrases, to search entire phrase or individual words.
 3. Advanced faceted search on fields such as tags, categories, author, and page type and custom fields.
@@ -48,36 +46,36 @@ The WPSOLR Search Engine plugin overcomes the limitations of the WordPress defau
 
 == Frequently Asked Questions ==
 
-1.How do I install and configure Solr?
+= How do I install and configure Solr? =
 
 Please refer to our detailed <a href='http://wpsolr.com/installation-guide/'>Installation Guide</a>.
 
 
-2. Can I host Solr on my server?
+= Can I host Solr on my server? =
 
 Yes. But you can also host Solr remotely on gotosolr.
 
 
-3. What version of Solr does the WPSOLR Search Engine plugin need?
+= What version of Solr does the WPSOLR Search Engine plugin need? =
 
 WPSOLR Search Engine plugin is <a href="http://wpsolr.com/releases/#1.0"> compatible with the following Solr versions</a>. But if you were going with a new installation, we would recommend installing Solr version 3.6.x or above.
 
 
-4. Does WPSOLR Search Engine Plugin work with any version of WordPress?
+= Does WPSOLR Search Engine Plugin work with any version of WordPress? =
 
 As of now, the WPSOLR Search Engine Plugin works with WordPress version 3.8 or above.
 
 
-5. Does WPSOLR Search Engine plugin handle custom post type, custom taxonomies and custom fields?
+= Does WPSOLR Search Engine plugin handle custom post type, custom taxonomies and custom fields? =
 
 Yes. The WPSOLR Search Engine plugin provides an option in dashboard, to select custom post types, custom taxonomies and custom fields, which have to be indexed.
 
  
-6. Can custom post type, custom taxonomies and custom fields be added faceted search?
+= Can custom post type, custom taxonomies and custom fields be added faceted search? =
 
 Yes. The WPSOLR Search Engine plugin provides option in dashboard, to select custom post types, custom taxonomies and custom fields, to be added in faceted search.
 
 
-7. Do you offer support?
+= Do you offer support? =
 
 You can raise a support question for our plugin from wordpress.org
