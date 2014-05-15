@@ -35,6 +35,9 @@ The WPSOLR Search Engine plugin overcomes the limitations of the WordPress defau
 9. Host Solr remotely using gotosolr.
 10. Solr configuration made easy.
 
+For more details visit <a href='http://wpsolr.com'>wpsolr.com</a>
+
+For demo visit <a href='http://www.gotosolr.com/search-results/?search=solr'>link</a>
 
 == Installation ==
 
