@@ -24,6 +24,7 @@ The WPSOLR Search Engine plugin overcomes the limitations of the WordPress defau
 
 
 = Features =
+
 1. Solr server uses indexing for faster search results.
 2. Text-analysis to break down search phrases, to search entire phrase or individual words.
 3. Advanced faceted search on fields such as tags, categories, author, and page type and custom fields.
