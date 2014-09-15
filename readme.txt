@@ -8,7 +8,7 @@ Author:  WPSOLR.COM
 
 Author URI: http://wpsolr.com/ 
 
-Tags: Solr in WordPress, Solr search, fast search, WPSOLR
+Tags: Solr in WordPress, Solr search, fast search, wpsolr, apache sold, better search, site search, category search, search bar, comment search, faceting, custom search, facets, page search, autocomplete, post search, online search, search, spell checking, search integration, did you mean, search replacement, suggestions, search results, multi language, seo, lucene, solr, apache lucene
 
 Requires at least: 3.7.1
 
