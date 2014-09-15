@@ -120,7 +120,7 @@ jQuery(document).ready(function(){
 			jQuery('.host_err').text('');	
 		}
 		
-		if(isNaN(port) || port.length!=4)
+		if(isNaN(port) || port.length<2)
 		{
 			jQuery('.port_err').text('Please enter valid port');
 			error=1;
@@ -148,7 +148,7 @@ jQuery(document).ready(function(){
 				jQuery.ajax({
 								url: path+'admin-ajax.php',
 								type: "post",
-								timeout: 10000,
+								timeout: 3000,
 								data: { action:'return_solr_instance','shost':host,'sport':port,'spath':spath},
 								success: function(data1){
 									
@@ -167,7 +167,7 @@ jQuery(document).ready(function(){
 								error:function(){
 									jQuery('.img-load').css('display','none');
 								
-									jQuery('.solr_error').text('Connection time out');
+									jQuery('.solr_error').text('We could not contact your Solr server. It\'s probably because port ' + port + ' is blocked. Please try another port, for instance 443, or contact your hosting provider to unblock port ' + port + '.');
 								
 								}   
 							      });
@@ -198,7 +198,7 @@ jQuery(document).ready(function(){
 			jQuery('.ghost_err').text('');	
 		}
 		
-		if(isNaN(port) || port.length!=4)
+		if(isNaN(port) || port.length<2)
 		{
 			jQuery('.gport_err').text('Please enter valid port');
 			error=1;
@@ -235,7 +235,7 @@ jQuery(document).ready(function(){
 						url: path+'admin-ajax.php',
 						type: "post",
 						data: { action:'return_goto_solr_instance','proto':protocol,'shost':host,'sport':port,'spath':spath,'spwd':pwd,'skey':user},
-						timeout: 10000,
+						timeout: 3000,
 						success: function(data1){
 									jQuery('.img-load').css('display','none');
 									if(data1==0)
@@ -254,7 +254,7 @@ jQuery(document).ready(function(){
 								 
 									jQuery('.img-load').css('display','none');
 								
-									jQuery('.solr_error').text('Connection time out');
+									jQuery('.solr_error').text('We could not contact your Solr server. It\'s probably because port ' + port + ' is blocked. Please try another port, for instance 443, or contact your hosting provider to unblock port ' + port + '.');
 								}   
 							      });
 		

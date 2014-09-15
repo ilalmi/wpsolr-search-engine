@@ -12,7 +12,7 @@ Tags: Solr in WordPress, Solr search, fast search, WPSOLR
 
 Requires at least: 3.7.1
 
-Tested up to: 4.0
+Tested up to: 4.1
 
 Stable tag: trunk
 
@@ -46,6 +46,16 @@ For demo visit <a href='http://www.gotosolr.com/search-results/?search=solr'>lin
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Go to the 'WPSOLR' settings page and configure the plugin.
 4. Please refer the Installation and User Guide for further reference.
+
+
+== Changelog ==
+
+= 1.1 =
+* Improved error message when Solr port is blocked by hosting provider.
+* Bug fix: Solr port used to be 4 digits. Can now be 2 digits and more.
+
+= 1.0 =
+* First version.
 
 
 == Frequently Asked Questions ==
