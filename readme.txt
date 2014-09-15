@@ -12,7 +12,7 @@ Tags: Solr in WordPress, Solr search, fast search, WPSOLR
 
 Requires at least: 3.7.1
 
-Tested up to: 3.9
+Tested up to: 4.0
 
 Stable tag: trunk
 
