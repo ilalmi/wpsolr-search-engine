@@ -14,7 +14,7 @@ Requires at least: 3.7.1
 
 Tested up to: 4.0
 
-Stable tag: trunk
+Stable tag: 1.1
 
 Solr search with facets, autocompletion, and suggestions
 
