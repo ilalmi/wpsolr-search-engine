@@ -9,7 +9,6 @@ function wdm_return_solr_rows()
 }
  
     $input = $_POST['word'];
-    $path = 'vendor/autoload.php';
 
     if($_SESSION['wdm-host']=='')
 {
@@ -21,7 +20,7 @@ function wdm_return_solr_rows()
     $host=$_SESSION['wdm-host'];
     $port=$_SESSION['wdm-port'];
     $spath=$_SESSION['wdm-path'];
-    include($path);
+
     $config = array(
                     "endpoint" =>
                                 array("localhost" => array(
@@ -76,13 +75,10 @@ if(session_id() == '') {
 }
 
 
-  require("securecookie.php");
-  $C = new SecureCookie('mysecretword','suggest_cookie',time()+3600,'/');
   $input = $_POST['word'];
   $in=substr($input,0,1);
- $result=$C->Get($in);
- 
-  
+
+
 if($result=='')
 {
 
@@ -129,7 +125,6 @@ if($_SESSION['wdm-ghost']=='')
          
             $suggest= $res->spellcheck->suggestions[1]->suggestion;
 	    $result= json_encode($suggest);
-	   $C->Set($input,$result);
            }
 }
 echo $result;

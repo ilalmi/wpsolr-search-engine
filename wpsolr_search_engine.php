@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WPSOLR Search Engine
  * Description: Solr search with facets, autocompletion, and suggestions
- * Version: 1.1
+ * Version: 1.2
  * Author: WPSOLR.COM
  * Plugin URI: http://www.wpsolr.com
  * License: GPL2

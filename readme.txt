@@ -2,7 +2,7 @@
 
 Contributors: WPSOLR.COM
 
-Current Version: 1.1
+Current Version: 1.2
 
 Author:  WPSOLR.COM
 
@@ -14,7 +14,7 @@ Requires at least: 3.7.1
 
 Tested up to: 4.0
 
-Stable tag: 1.1
+Stable tag: 1.2
 
 Solr search with facets, autocompletion, and suggestions
 
@@ -49,6 +49,9 @@ For demo visit <a href='http://www.gotosolr.com/search-results/?search=solr'>lin
 
 
 == Changelog ==
+
+= 1.2 =
+* Speed up autocompletion by 3 times.
 
 = 1.1 =
 * Improved error message when Solr port is blocked by hosting provider.
