@@ -16,11 +16,22 @@ Tested up to: 4.0
 
 Stable tag: 1.3
 
-Enterprise search with facets, autocompletion, suggestions, and optional hosting
+World class Enterprise Search with facets, autocompletion, suggestions, and optional hosting
 
 == Description ==
 
-The WPSOLR Search Engine plugin overcomes the limitations of the WordPress default search widget. By configuring Solr and installing this plugin, you can take advantage of its numerous benefits. 
+The core search is performed by SQL queries directly on the database. So are most of the search plugins.
+
+But SQL is awfully greedy in computer resources, especially when it comes to table joins and wild cards (select * where field like ‘%keyword%’), which are both heavily used by search.
+And SQL can’t keep well with natural language: synonyms, language specific plurals, stop-words, …
+
+Fortunately, performance and relevance are features built specifically in full-text search engines.
+Using a search engine, you’ll be able to deliver more accurate search to your visitors, for far less computer resources, which means better for cheaper.
+
+The purpose of this plugin is to help you setup your dear Wordpress search to your own Apache Solr server, or to a hosted Apache server.
+Apache Solr is the World leading Open source full-text Search Engine. No question on that.
+
+And now, with this plugin, you can get it for free. So, fasten your seat belt, and enjoy the trip.
 
 
 = Features =
