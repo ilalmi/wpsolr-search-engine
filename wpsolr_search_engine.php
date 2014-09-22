@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: WPSOLR Search Engine
- * Description: Solr search with facets, autocompletion, and suggestions
- * Version: 1.2
+ * Plugin Name: Enterprise search in seconds
+ * Description: Apache Solr search with facets, autocompletion, and suggestions. Ready in seconds with optional hosting.
+ * Version: 1.3
  * Author: WPSOLR.COM
  * Plugin URI: http://www.wpsolr.com
  * License: GPL2

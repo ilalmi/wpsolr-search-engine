@@ -90,7 +90,7 @@ function fun_search_indexed_data()
        
         $solr=new wp_Solr();
    
-        $res=$solr->get_solr_status();
+        $res = 0;
         $options=$fac_opt['facets'];
         if($res==0)
         {

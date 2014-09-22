@@ -2,19 +2,19 @@
 
 Contributors: WPSOLR.COM
 
-Current Version: 1.2
+Current Version: 1.3
 
 Author:  WPSOLR.COM
 
 Author URI: http://wpsolr.com/ 
 
-Tags: Solr in WordPress, Solr search, fast search, wpsolr, apache sold, better search, site search, category search, search bar, comment search, faceting, custom search, facets, page search, autocomplete, post search, online search, search, spell checking, search integration, did you mean, search replacement, suggestions, search results, multi language, seo, lucene, solr, apache lucene
+Tags: Solr in WordPress, relevance, Solr search, fast search, wpsolr, apache sold, better search, site search, category search, search bar, comment search, faceting, relevant search, custom search, facets, page search, autocomplete, post search, online search, search, spell checking, search integration, did you mean, typeahead, search replacement, suggestions, search results, search by category, multi language, seo, lucene, solr, suggest, apache lucene
 
 Requires at least: 3.7.1
 
 Tested up to: 4.0
 
-Stable tag: 1.2
+Stable tag: 1.3
 
 Solr search with facets, autocompletion, and suggestions
 
@@ -38,7 +38,7 @@ The WPSOLR Search Engine plugin overcomes the limitations of the WordPress defau
 
 For more details visit <a href='http://wpsolr.com'>wpsolr.com</a>
 
-For demo visit <a href='http://www.gotosolr.com/search-results/?search=solr'>link</a>
+For a live demo visit <a href='http://www.gotosolr.com/search-results/?search=solr'>wpsolr search page</a>
 
 == Installation ==
 
@@ -49,6 +49,9 @@ For demo visit <a href='http://www.gotosolr.com/search-results/?search=solr'>lin
 
 
 == Changelog ==
+
+= 1.3 =
+* Speed up search results display.
 
 = 1.2 =
 * Speed up autocompletion by 3 times.
