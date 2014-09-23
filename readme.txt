@@ -49,7 +49,8 @@ And now, with this plugin, you can get it for free. So, fasten your seat belt, a
 
 For more details visit <a href='http://wpsolr.com'>wpsolr.com</a>
 
-For a live demo visit <a href='http://www.gotosolr.com/search-results/?search=solr'>wpsolr search page</a>
+For a live demo visit <a href='http://www.gotosolr.com/search-results/?search=solr'>live search page demo</a>. Try the live search (autocompletion), on words like « solr », « cassandra », « security », « indexes », « search ». Notice the facets on the left side with their nice clicked Ajax display, the terms highlighting in the results snippets, the « order by » drop-down list. To test the « did you mean » (suggestions on misspelled words), you can search on « soler » (suggested as « solr »), or « casandra » (suggested as « cassandra »).
+
 
 == Installation ==
 
