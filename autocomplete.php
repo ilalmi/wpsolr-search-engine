@@ -30,7 +30,7 @@ function wdm_return_solr_rows()
                                                             )
                                     )
                     );
-    
+    require('vendor/autoload.php');
     $client = new Solarium\Client($config);
     $input=strtolower($input); 
     $res=array();

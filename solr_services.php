@@ -203,7 +203,6 @@ function fun_search_indexed_data()
             
              echo '</div>
                     <div class="wdm_results">';
-                        $options=$opt['facets'];
                         if($final_result[0]!='0')
                             echo $final_result[0];
                     

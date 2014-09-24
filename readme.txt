@@ -2,7 +2,7 @@
 
 Contributors: WPSOLR.COM
 
-Current Version: 1.3
+Current Version: 1.4
 
 Author:  WPSOLR.COM
 
@@ -14,7 +14,7 @@ Requires at least: 3.7.1
 
 Tested up to: 4.0
 
-Stable tag: 1.3
+Stable tag: 1.4
 
 World class Enterprise Search with facets, autocompletion, suggestions, and optional hosting
 
@@ -61,6 +61,10 @@ For a live demo visit <a href='http://www.gotosolr.com/search-results/?search=so
 
 
 == Changelog ==
+
+= 1.4 =
+* Fixed warning on search page for self hosted Solr
+* Fixed error on autocomplete, and search page with "did you mean" activated, for self hosted Solr 
 
 = 1.3 =
 * Speed up search results display.
