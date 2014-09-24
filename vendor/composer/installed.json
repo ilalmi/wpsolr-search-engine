@@ -1,0 +1,103 @@
+[
+    {
+        "name": "symfony/event-dispatcher",
+        "version": "v2.2.11",
+        "version_normalized": "2.2.11.0",
+        "target-dir": "Symfony/Component/EventDispatcher",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/EventDispatcher.git",
+            "reference": "131423f38d4df06f8652f45548b79f18102ccbc7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/131423f38d4df06f8652f45548b79f18102ccbc7",
+            "reference": "131423f38d4df06f8652f45548b79f18102ccbc7",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "require-dev": {
+            "symfony/dependency-injection": "~2.0"
+        },
+        "suggest": {
+            "symfony/dependency-injection": "2.2.*",
+            "symfony/http-kernel": "2.2.*"
+        },
+        "time": "2013-11-30 09:35:04",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.2-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Symfony\\Component\\EventDispatcher\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "http://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony EventDispatcher Component",
+        "homepage": "http://symfony.com"
+    },
+    {
+        "name": "solarium/solarium",
+        "version": "3.1.0",
+        "version_normalized": "3.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/basdenooijer/solarium.git",
+            "reference": "d733309d6e6e570ba3ee2dc85b2cc048da9ca0a7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/basdenooijer/solarium/zipball/d733309d6e6e570ba3ee2dc85b2cc048da9ca0a7",
+            "reference": "d733309d6e6e570ba3ee2dc85b2cc048da9ca0a7",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2",
+            "symfony/event-dispatcher": ">=2.1.0,<2.3-dev"
+        },
+        "time": "2013-02-27 08:42:27",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Solarium": "library/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "NewBSD"
+        ],
+        "authors": [
+            {
+                "name": "See GitHub contributors",
+                "homepage": "https://github.com/basdenooijer/solarium/contributors"
+            }
+        ],
+        "description": "PHP Solr client",
+        "homepage": "http://www.solarium-project.org",
+        "keywords": [
+            "php",
+            "search",
+            "solr"
+        ]
+    }
+]

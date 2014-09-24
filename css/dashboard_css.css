@@ -1,0 +1,184 @@
+.wdm-wrap{
+	margin: 10px 20px 0 2px;
+}
+.page_title{
+	background-color:#F49537;
+	color:#fff;
+	border-left:4px solid #C15F03;
+	padding:5px 15px;
+	margin-bottom:15px;
+}
+.solr_error{
+	color: red;
+	font-size:16px;
+	margin-left: 10px
+}
+.wdm_row{
+	width:98%;
+	padding:0 1%;
+}
+.col_left{
+	float: left;
+	width:30%;
+	padding: 10px ;
+	font-size: 14px;
+	font-weight: bold;
+}
+.col_right{
+	float: left;
+	width:60%;
+	padding: 10px ;
+}
+.wrapper{
+	background-color: #fff !important;
+	border: 1px #ccc;
+	margin-bottom:15px;
+}
+.wdm-save{
+	/*padding: 10px !important ;*/
+	background:#F49537!important;
+	border-color:#C15F03!important;	
+}
+.wdm-save:hover{
+	background:#C15F03!important;	
+}
+#hosted_on_other,#div_self_hosted,.indexing_option{
+	
+	background-color: #fff !important;
+	border: 1px #ccc;
+}
+.head_div{
+	color:#C15F03;
+	font-size:16px;
+	border-bottom:1px solid #ddd;
+	padding:10px;
+	margin:0;
+}
+input[type=radio]:checked:before{
+	background-color:#C15F03!important;
+}
+input[type=checkbox]:checked:before{
+	color:#C15F03!important;
+}
+.wdm_heading{
+	color:#C15F03;
+	background:#fff;
+	border-left:4px solid #C15F03;
+	padding:0.5px 15px;
+}
+.wdm_heading h3{
+	color:#C15F03;
+}
+.img-right
+{
+	width:100px !important;
+}
+/*new stuff start here*/
+.col_left_fac{
+	display: inline;
+}
+.col_left_val{
+	width: 90%;
+}
+.col_left_val>a{
+	float: right;
+}
+.col_right_fac{
+	display: inline-block;
+}
+.sel_fac_nav{
+	float: right;
+}
+.wdm_note{
+	font-style:italic;
+	color:#C15F03;
+	margin: 20px;
+	background:#ddd;
+	padding:15px;
+	border-left:4px solid #C15F03;
+}
+
+.host_err, .port_err, .path_err,.ghost_err, .gport_err, .gpath_err,.gkey_err,.gsec_err{
+	color:#800000;
+}
+.success{
+	background-image:url('../images/success.png') ;
+	height:22px;
+	width:22px;
+	
+	display: inline-block;
+	background-size: 98%;
+}
+.warning
+{
+	background-image:url('../images/warning.png');
+	height:18px;
+	width:18px;
+	background-size: 98%;
+	 display: inline-block;
+}
+.loading
+{
+		background-image:url('../images/gif-load_cir.gif');
+background-size: 98%;
+   width:22px; 
+   height:22px;
+   display: inline-block;
+
+}
+#solr_host,#solr_port,#solr_path,#gtsolr_host,#gtsolr_port,#gtsolr_path,#gtsolr_key,#gtsolr_secret
+{
+	width:550px;
+}
+/*CSS for tab panel*/
+.wdm-vertical-tabs{
+	float:left;
+	width:15%;
+	min-width:85px;
+	margin-right:-1px;
+	border-bottom:0 none!important;
+}
+.wdm-vertical-tabs a{
+	display:block;
+	border-bottom:1px solid #ccc;
+	margin-right:0;
+	margin-bottom:5px;
+}
+.wdm-vertical-tabs-content{
+	float:left;
+	width:76%;
+	padding:0 2%;
+	border-left:1px solid #ccc;
+}
+#search_que{
+	height: 32px ;
+}
+
+.facets{
+	padding:5px;
+	margin-top:5px;
+	border:1px solid #ccc;
+	cursor: move;
+	background: #f1f1f1;
+}
+.plus_icon{
+	height: 16px;
+	width: 16px;
+	float: right;
+	cursor: pointer
+}
+.minus_icon
+{
+	height: 16px;
+	width: 16px;
+	float: right;
+	cursor: pointer;
+	
+}
+.wdm-instructions{
+	list-style: outside square;
+	padding-left: 15px;
+}
+.avail_fac{
+	width:50%;
+}
