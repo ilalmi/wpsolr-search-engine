@@ -64,7 +64,7 @@ For a live demo visit <a href='http://www.gotosolr.com/search-results/?search=so
 
 = 1.4 =
 * Fixed warning on search page for self hosted Solr
-* Fixed error on autocomplete, and search page with "did you mean" activated, for self hosted Solr 
+* Requires to reload yor index with the new config files (solrconfig.xml, schema.xml). Fixed error on autocomplete, and search page with "did you mean" activated, for self hosted Solr 
 
 = 1.3 =
 * Speed up search results display.
