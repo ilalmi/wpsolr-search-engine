@@ -883,74 +883,100 @@ class wp_Solr {
         $tbl=$wpdb->prefix.'posts';
         $where='';
         
-         $client=$this->client;
+        $client=$this->client;
         $updateQuery = $client->createUpdate();
-        
+        $extractQuery = $client->createExtract();
         $ind_opt=get_option('wdm_solr_form_data');
        
-        $post_types=$ind_opt['p_types'];
+        $post_types=explode(',',$ind_opt['p_types']);
         $exclude_id=$ind_opt['exclude_ids'];
         $ex_ids=array();
         $ex_ids=explode(',',$exclude_id);
-        $posts=explode(',',$post_types);
-        for($i=0;$i<=count($posts)-2;$i++){
-            $where.=" post_type='$posts[$i]' OR";
+        $published_ids=array();
+
+        foreach ($post_types as $post_type) {
+            if ($post_type!='attachment') {
+                $where_p.=" post_type='$post_type' OR";
+            } else {
+                $where_a="( post_status='publish' OR post_status='inherit' ) AND post_type='attachment'";
+            }
         }
-         $where.=" post_type='$posts[$i]'";
-      $query="SELECT ID FROM $tbl WHERE post_status='publish' AND ( $where ) ORDER BY ID ";
-     
-        $ids_array=$wpdb->get_col($query);
-        
-        $postcount = count($ids_array);
+        if (isset($where_p)) {
+            $where_p = substr($where_p,0,-3);
+            $where="post_status='publish' AND ( $where_p )";
+            if (isset($where_a)) {
+                $where="( $where ) OR ( $where_a )";
+            }
+        } elseif (isset($where_a)) {
+            $where=$where_a;
+        } else {
+            $postcount=0;
+        }
+        if (!isset($postcount)) {
+            $query="SELECT ID, post_parent, post_type FROM $tbl WHERE $where ORDER BY ID";
+            $ids_array=$wpdb->get_results($query, ARRAY_A);
+            $postcount=count($ids_array);
+        }
+
+        foreach ($ids_array as $id_array) {
+            $published_ids[] = $id_array['ID'];
+        }
         $doc_count=0;
-	for ($idx = 0; $idx < $postcount; $idx++)
-        {
-		$postid = $ids_array[$idx];
-		
-                if (!in_array($postid, $ex_ids) )
-                {
-                   $doc_count++;
-                    $documents[] = wp_Solr::get_single_document($updateQuery,$ind_opt,get_post($postid) );    
-		}
-               
+        foreach ($ids_array as $id_array) {
+            $post = get_post($id_array['ID']);
+
+            if (!in_array($id_array['ID'], $ex_ids) ) {
+                if ($id_array['post_type'] != 'attachment') {
+                    $doc_count++;
+                    $documents[] = wp_Solr::get_single_document($updateQuery,$ind_opt,$post);    
+                } else {
+                    if (in_array($id_array['post_parent'], $published_ids)) {
+                        $doc_count++;
+                        $attachment_body = wp_Solr::get_attachment_body($extractQuery,$post);
+                        $documents[] = wp_Solr::get_single_document($updateQuery,$ind_opt,$post,$attachment_body );    
+                    }
+                }
+            }
 	
-		$cnt++;
-		if ($cnt == $batchsize || $cnt== $postcount) {
-			$res_final=wp_Solr::add_data_to_index( $updateQuery, $documents);
-		                       
-		                      
-			$cnt = 0;
-			$documents = array();
-			
-		}
+            $cnt++;
+            if ($cnt == $batchsize || $cnt== $postcount) {
+                $res_final=wp_Solr::add_data_to_index( $updateQuery, $documents);
+                $cnt = 0;
+                $documents = array();
+            }
                 
-	}
+        }
+
          //
         
          $solr_options=get_option('wdm_solr_conf_data');
          
          if($solr_options['host_type']=='self_hosted')
            {
-             update_option('solr_docs_in_self_index',$doc_count);
+             update_option('solr_docs_in_self_index',($doc_count));
            }
            else{
-            update_option('solr_docs_in_cloud_index',$doc_count);
+            update_option('solr_docs_in_cloud_index',($doc_count));
            }
           
           return $res_final;
             
     }
-    public function get_single_document($updateQuery,$opt,$post)
+    public function get_single_document($updateQuery,$opt,$post,$attachment_body=false)
         {
                      
             $pid=$post->ID;
             $ptitle=$post->post_title;
-            $pcontent=$post->post_content;
+            if ($attachment_body) {
+                $pcontent=$attachment_body;
+            } else {
+                $pcontent=$post->post_content;    
+            }
             $pauth_info = get_userdata( $post->post_author );
             $pauthor= $pauth_info->display_name ;
-	    $pauthor_s= get_author_posts_url($pauth_info->ID, $pauth_info->user_nicename);
+            $pauthor_s= get_author_posts_url($pauth_info->ID, $pauth_info->user_nicename);
             $ptype= $post->post_type;
-	    $pdate= solr_format_date($post->post_date_gmt) ;
+            $pdate= solr_format_date($post->post_date_gmt) ;
             $pmodified= solr_format_date($post->post_modified_gmt) ;
             $pdisplaydate= $post->post_date ;
             $pdisplaymodified= $post->post_modified;
@@ -978,7 +1004,7 @@ class wp_Solr {
            $categories = get_the_category($post->ID);
 		if ( ! $categories == NULL ) {
 			foreach( $categories as $category ) {
-				    array_push($cats,$category->cat_name);
+                    array_push($cats,$category->cat_name);
 					
 				
 			}
@@ -1185,7 +1211,22 @@ class wp_Solr {
           return $doc1;
            
         }
-        public function add_data_to_index($updateQuery, $documents)
+    public function get_attachment_body($extractQuery,$post)
+        {
+            $solr_options=get_option('wdm_solr_conf_data');
+         
+            $extractQuery->setFile(preg_replace('~^http(s)?://'.$_SERVER['SERVER_NAME'].'~i', $_SERVER['DOCUMENT_ROOT'], get_the_guid($post->ID)));
+            $doc1 = $extractQuery->createDocument();
+            $extractQuery->setDocument($doc1);
+            $extractQuery->addParam('extractOnly', 'true');
+            $extractQuery->getResponseParser();
+            $client=$this->client;
+            $result = $client->extract($extractQuery);
+            $response = $result->getResponse()->getBody();
+            $body = preg_replace('/^.*?\<body\>(.*?)\<\/body\>.*$/i', '\1', $response);
+            return $body;
+        }
+    public function add_data_to_index($updateQuery, $documents)
         {
             $solr_options=get_option('wdm_solr_conf_data');
          

@@ -323,7 +323,7 @@ function return_solr_instance()
                                     "port"=>$port,
                                     "path"=>$spath)
                                     ) );
-        $client=  new Client($config);
+        $client=  new Solarium\Client($config);
         
         $ping = $client->createPing();
         

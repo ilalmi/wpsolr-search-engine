@@ -503,13 +503,10 @@ Your first action must be to download the two configuration files (schema.xml, s
                                                                           $post_types_opt=$solr_options['p_types'];
                                                                           foreach($post_types as $type)
                                                                              {
-                                                                                 if($type!='attachment')
-                                                                                 {
                                                                                  ?>
                                                                                  <input type='checkbox' name='post_tys' value='<?php echo $type ?>'
                                                                                  <?php if(strpos($post_types_opt,$type)!==false) { ?> checked <?php } ?>> <?php echo $type ?> <br> 
                                                                               <?php
-                                                                              }
                                                                              }
                                                                        ?>
                                                               
@@ -579,7 +576,7 @@ Your first action must be to download the two configuration files (schema.xml, s
                                                                               <div class="clear"></div>
                                                                           </div>
                                                                           <div class="wdm_row">
-                                                                              <div class='col_left'>Exclude items(Posts,Pages,...)</div>
+                                                                              <div class='col_left'>Exclude items (Posts,Pages,...)</div>
                                                                               <div class='col_right'>
                                                                                       <input type='text' name='wdm_solr_form_data[exclude_ids]' placeholder="Comma separated ID's list"
                                                                                       value="<?php echo empty($solr_options['exclude_ids']) ? '' : $solr_options['exclude_ids'];?>"> <br>
