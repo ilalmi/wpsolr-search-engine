@@ -972,6 +972,7 @@ class wp_Solr {
             } else {
                 $pcontent=$post->post_content;    
             }
+            $pcontent=strip_tags($pcontent);
             $pauth_info = get_userdata( $post->post_author );
             $pauthor= $pauth_info->display_name ;
             $pauthor_s= get_author_posts_url($pauth_info->ID, $pauth_info->user_nicename);
@@ -1030,7 +1031,7 @@ class wp_Solr {
             $doc1->id=$pid;
             $doc1->PID=$pid;
             $doc1->title=$ptitle;
-            $doc1->content=strip_tags($pcontent);
+            $doc1->content=$pcontent;
            
             $doc1->author=$pauthor ;
 	    $doc1->author_s= $pauthor_s;
@@ -1216,14 +1217,18 @@ class wp_Solr {
             $solr_options=get_option('wdm_solr_conf_data');
          
             $extractQuery->setFile(preg_replace('~^http(s)?://'.$_SERVER['SERVER_NAME'].'~i', $_SERVER['DOCUMENT_ROOT'], get_the_guid($post->ID)));
-            $doc1 = $extractQuery->createDocument();
+            $doc1=$extractQuery->createDocument();
             $extractQuery->setDocument($doc1);
             $extractQuery->addParam('extractOnly', 'true');
-            $extractQuery->getResponseParser();
-            $client=$this->client;
-            $result = $client->extract($extractQuery);
-            $response = $result->getResponse()->getBody();
-            $body = preg_replace('/^.*?\<body\>(.*?)\<\/body\>.*$/i', '\1', $response);
+            try {
+                $client=$this->client;
+                $result=$client->extract($extractQuery);
+                $response=$result->getResponse()->getBody();
+                $body=preg_replace('/^.*?\<body\>(.*?)\<\/body\>.*$/i', '\1', $response);
+                $body=str_replace('\n', ' ', $body);
+            } catch (Exception $e) {
+                $body='';
+            }
             return $body;
         }
     public function add_data_to_index($updateQuery, $documents)
