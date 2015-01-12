@@ -878,30 +878,39 @@ class wp_Solr {
     public function build_query()
     {
         global $wpdb;
-        $batchsize=100;
-        $cnt=0;
-        $tbl=$wpdb->prefix.'posts';
-        $where='';
-        
-        $client=$this->client;
-        $updateQuery = $client->createUpdate();
-        $extractQuery = $client->createExtract();
-        $ind_opt=get_option('wdm_solr_form_data');
-       
-        $post_types=explode(',',$ind_opt['p_types']);
-        $exclude_id=$ind_opt['exclude_ids'];
-        $ex_ids=array();
-        $ex_ids=explode(',',$exclude_id);
-        $published_ids=array();
 
-        foreach ($post_types as $post_type) {
-            if ($post_type!='attachment') {
-                $where_p.=" post_type='$post_type' OR";
+        $batchsize = 100;
+        $res_final = 0;
+        $cnt = 0;
+
+        $tbl = $wpdb->prefix . 'posts';
+        $where = '';
+
+        $client = $this->client;
+        $updateQuery = $client->createUpdate();
+        // Get body of attachment
+        $extractQuery = $client->createExtract();
+
+        $ind_opt = get_option('wdm_solr_form_data');
+
+        $post_types = $ind_opt['p_types'];
+        $exclude_id = $ind_opt['exclude_ids'];
+        $ex_ids = array();
+        $ex_ids = explode(',', $exclude_id);
+        $posts = explode(',', $post_types);
+        // Build the WHERE clause
+        foreach ($posts as $post_type) {
+            if ($post_type != 'attachment') {
+                // Where clause for *p*osts
+                $where_p .= " post_type='$post_type' OR";
             } else {
-                $where_a="( post_status='publish' OR post_status='inherit' ) AND post_type='attachment'";
+                // Where clause for *a*ttachments
+                // We check the publish status of the parent post later on, if post_status='inherit'
+                $where_a = "( post_status='publish' OR post_status='inherit' ) AND post_type='attachment'";
             }
         }
         if (isset($where_p)) {
+            // Remove the last " OR"
             $where_p = substr($where_p,0,-3);
             $where="post_status='publish' AND ( $where_p )";
             if (isset($where_a)) {
@@ -909,58 +918,96 @@ class wp_Solr {
             }
         } elseif (isset($where_a)) {
             $where=$where_a;
-        } else {
-            $postcount=0;
-        }
-        if (!isset($postcount)) {
-            $query="SELECT ID, post_parent, post_type FROM $tbl WHERE $where ORDER BY ID";
-            $ids_array=$wpdb->get_results($query, ARRAY_A);
-            $postcount=count($ids_array);
         }
 
-        foreach ($ids_array as $id_array) {
-            $published_ids[] = $id_array['ID'];
-        }
-        $doc_count=0;
-        foreach ($ids_array as $id_array) {
-            $post = get_post($id_array['ID']);
+        $lastFetchedID = -1;
 
-            if (!in_array($id_array['ID'], $ex_ids) ) {
-                if ($id_array['post_type'] != 'attachment') {
-                    $doc_count++;
-                    $documents[] = wp_Solr::get_single_document($updateQuery,$ind_opt,$post);    
-                } else {
-                    if (in_array($id_array['post_parent'], $published_ids)) {
+        // Build the query
+        $query = "";
+        // We need post_parent and post_type, too, to handle attachments
+        $query .= " SELECT ID, post_parent, post_type ";
+        $query .= " FROM $tbl ";
+        $query .= " WHERE ";
+        $query .= " ID > %d ";
+        $query .= " AND ( $where ) ";
+        $query .= " ORDER BY ID ASC";
+        $query .= " LIMIT $batchsize ";
+
+        $documents = array();
+        $doc_count = 0;
+        while (true) {
+
+            // Execute query (retrieve posts IDs, parents and types)
+            $ids_array = $wpdb->get_results( $wpdb->prepare($query, $lastFetchedID), ARRAY_A );
+
+            // Aggregate current batch IDs in one Solr update statement
+            $postcount = count($ids_array);
+
+            // Get the ID of every published post
+            // We need these to be able to check whether a parent post of an attachment has been published
+            $published_ids = array();
+            foreach ($ids_array as $id_array) {
+                $published_ids[] = $id_array['ID'];
+            }
+            
+            for ($idx = 0; $idx < $postcount; $idx++) {
+                $postid = $ids_array[$idx]['ID'];
+
+                // If post is not on blacklist
+                if (!in_array($postid, $ex_ids)) {
+                    // If post is not an attachment
+                    if ($ids_array[$idx]['post_type'] != 'attachment') {
+                        // Count this post
                         $doc_count++;
-                        $attachment_body = wp_Solr::get_attachment_body($extractQuery,$post);
-                        $documents[] = wp_Solr::get_single_document($updateQuery,$ind_opt,$post,$attachment_body );    
+                        // Get the posts data
+                        $documents[] = wp_Solr::get_single_document($updateQuery, $ind_opt, get_post($postid));    
+                    } else {
+                        // Post is of type "attachment"
+                        // Post's parent has been published
+                        if (in_array($ids_array[$idx]['post_parent'], $published_ids)) {
+                            // Count this post
+                            $doc_count++;
+                            // Get the attachments body
+                            $attachment_body = wp_Solr::get_attachment_body($extractQuery, get_post($postid));
+                            // Get the posts data
+                            $documents[] = wp_Solr::get_single_document($updateQuery, $ind_opt, get_post($postid), $attachment_body );    
+                        }
                     }
                 }
             }
-	
-            $cnt++;
-            if ($cnt == $batchsize || $cnt== $postcount) {
-                $res_final=wp_Solr::add_data_to_index( $updateQuery, $documents);
-                $cnt = 0;
-                $documents = array();
+
+            if (empty($documents) || !isset($documents)) {
+                // No more documents to index, stop now by exiting the loop
+                break;
             }
-                
+
+            // Send batch documents to Solr
+            $res_final = wp_Solr::add_data_to_index($updateQuery, $documents);
+
+            // Solr error: exit loop
+            if (!$res_final) {
+                break;
+            }
+
+            // Don't send twice the same documents
+            $documents = array();
+
+            // Store last post ID sent to Solr
+            $lastFetchedID = $postid;
+
+            // Update admin UI with nb of documents indexed
+            $solr_options = get_option('wdm_solr_conf_data');
+
+            if ($solr_options['host_type'] == 'self_hosted') {
+                update_option('solr_docs_in_self_index', $doc_count);
+            } else {
+                update_option('solr_docs_in_cloud_index', $doc_count);
+            }
+
         }
 
-         //
-        
-         $solr_options=get_option('wdm_solr_conf_data');
-         
-         if($solr_options['host_type']=='self_hosted')
-           {
-             update_option('solr_docs_in_self_index',($doc_count));
-           }
-           else{
-            update_option('solr_docs_in_cloud_index',($doc_count));
-           }
-          
-          return $res_final;
-            
+        return $res_final;
+
     }
     public function get_single_document($updateQuery,$opt,$post,$attachment_body=false)
         {
@@ -968,11 +1015,12 @@ class wp_Solr {
             $pid=$post->ID;
             $ptitle=$post->post_title;
             if ($attachment_body) {
+                // Post is an attachment: we get the document body from the function call
                 $pcontent=$attachment_body;
             } else {
-                $pcontent=$post->post_content;    
+                // Post is NOT an attachment: we get the document body from the post object
+                $pcontent=$post->post_content;
             }
-            $pcontent=strip_tags($pcontent);
             $pauth_info = get_userdata( $post->post_author );
             $pauthor= $pauth_info->display_name ;
             $pauthor_s= get_author_posts_url($pauth_info->ID, $pauth_info->user_nicename);
@@ -1005,7 +1053,7 @@ class wp_Solr {
            $categories = get_the_category($post->ID);
 		if ( ! $categories == NULL ) {
 			foreach( $categories as $category ) {
-                    array_push($cats,$category->cat_name);
+				    array_push($cats,$category->cat_name);
 					
 				
 			}
@@ -1031,7 +1079,7 @@ class wp_Solr {
             $doc1->id=$pid;
             $doc1->PID=$pid;
             $doc1->title=$ptitle;
-            $doc1->content=$pcontent;
+            $doc1->content=strip_tags($pcontent);
            
             $doc1->author=$pauthor ;
 	    $doc1->author_s= $pauthor_s;
@@ -1216,10 +1264,13 @@ class wp_Solr {
         {
             $solr_options=get_option('wdm_solr_conf_data');
          
+            // Set URL to attachment
             $extractQuery->setFile(preg_replace('~^http(s)?://'.$_SERVER['SERVER_NAME'].'~i', $_SERVER['DOCUMENT_ROOT'], get_the_guid($post->ID)));
             $doc1=$extractQuery->createDocument();
             $extractQuery->setDocument($doc1);
+            // We don't want to add the document to the solr index now
             $extractQuery->addParam('extractOnly', 'true');
+            // Try to extract the document body
             try {
                 $client=$this->client;
                 $result=$client->extract($extractQuery);
